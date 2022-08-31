@@ -1,23 +1,14 @@
 import React from "react";
 
-export default function List({ todoData, setTodoData }) {
-  const btnStyle = {
-    color: "#fff",
-    border: "none",
-    padding: "5px 9px",
-    borderRadius: "50%",
-    cursor: "pointer",
-    float: "right",
-  };
-
-  const getStyle = (isDone) => {
-    return {
-      padding: "10px",
-      borderBottom: "1px #ccc dotted",
-      textDecoration: isDone ? "line-through" : "none",
-    };
-  };
-
+export default function List({
+  id,
+  title,
+  isDone,
+  todoData,
+  setTodoData,
+  provided,
+  snapshot,
+}) {
   const handleClick = (id) => {
     let newTodoData = todoData.filter((data) => data.id !== id);
     setTodoData(newTodoData);
@@ -33,24 +24,29 @@ export default function List({ todoData, setTodoData }) {
     setTodoData(newTodoData);
     console.log(todoData);
   };
-
   return (
-    <div>
-      {todoData.map((data) => (
-        <div style={getStyle(data.isDone)} key={data.id}>
-          <p>
-            <input
-              type="checkbox"
-              defaultChecked={data.isDone}
-              onChange={() => handleChangeChecked(data.id)}
-            />{" "}
-            {data.title}
-            <button style={btnStyle} onClick={() => handleClick(data.id)}>
-              x
-            </button>
-          </p>
-        </div>
-      ))}
+    <div
+      key={id}
+      {...provided.draggableProps}
+      ref={provided.innerRef}
+      {...provided.dragHandleProps}
+      className={`${
+        snapshot.isDragging ? "bg-gray-400" : "bg-gray-100"
+      } flex items-center justify-between w-full px-4 py-1 my-2 text-gray-600 border rounded`}
+    >
+      <div>
+        <input
+          type="checkbox"
+          defaultChecked={isDone}
+          onChange={() => handleChangeChecked(id)}
+        />{" "}
+        <span className={isDone ? "line-through" : undefined}>{title}</span>
+      </div>
+      <div>
+        <button className="px-4 py-2" onClick={() => handleClick(id)}>
+          x
+        </button>
+      </div>
     </div>
   );
 }
