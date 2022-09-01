@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Form({ value, setValue, handleSubmit }) {
+const Form = ({ value, setValue, handleSubmit }) => {
   return (
     <form className="flex pt-2" onSubmit={handleSubmit}>
       <input
@@ -18,4 +18,6 @@ export default function Form({ value, setValue, handleSubmit }) {
       />
     </form>
   );
-}
+};
+
+export default Form;
